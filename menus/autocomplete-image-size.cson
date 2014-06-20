@@ -1,0 +1,6 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+    'Autocomplete image width': 'autocomplete-image-size:width'
+    'Autocomplete image height': 'autocomplete-image-size:height'
+    'Autocomplete image width and height': 'autocomplete-image-size:all'

@@ -1,0 +1,5 @@
+'.editor:not(.mini)':
+  'ctrl-s': 'autocomplete-image-size:cursor'
+  'ctrl-s w': 'autocomplete-image-size:width'
+  'ctrl-s h': 'autocomplete-image-size:height'
+  'ctrl-s b': 'autocomplete-image-size:both'
