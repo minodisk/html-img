@@ -1,9 +1,9 @@
 {
-  "name": "autocomplete-image-size",
-  "main": "./lib/autocomplete-image-size",
+  "name": "html-img",
+  "main": "./lib/html-img",
   "version": "0.0.0",
   "description": "A short description of your package",
-  "repository": "https://github.com/atom/autocomplete-image-size",
+  "repository": "https://github.com/atom/html-img",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"

@@ -46,10 +46,9 @@ class Watcher extends EventEmitter
 
     # Start listening
     @editor.on 'destroyed', @onDestroyed
-    @editorView.on 'autocomplete-image-size:cursor', @fillCursor
-    @editorView.on 'autocomplete-image-size:width', @fillAttribute
-    @editorView.on 'autocomplete-image-size:height', @fillAttribute
-    @editorView.on 'autocomplete-image-size:both', @fillAttribute
+    @editorView.on 'html-img:fill', @fillCursor
+    @editorView.on 'html-img:fill-width', @fillAttribute
+    @editorView.on 'html-img:fill-height', @fillAttribute
 
   deactivate: ->
     return unless @isActive
@@ -102,11 +101,11 @@ class Watcher extends EventEmitter
           if /width/.test text
             text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""
           else
-            text = text.replace /\s*>$/, " width=\"#{width}\">"
+            text = text.replace /\s*(\/?>)$/, " width=\"#{width}\"$1"
           if /height/.test text
-            text = text.replace /height(?:=".*?")?/, "width=\"#{height}\""
+            text = text.replace /height(?:=".*?")?/, "height=\"#{height}\""
           else
-            text = text.replace /\s*>$/, " height=\"#{height}\">"
+            text = text.replace /\s*(\/?>)$/, " height=\"#{height}\"$1"
           console.log range, text
           textBuffer.setTextInRange range, text
           $img.remove()
