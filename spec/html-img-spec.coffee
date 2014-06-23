@@ -1,30 +1,48 @@
-{WorkspaceView} = require 'atom'
-AutocompleteImageSize = require '../lib/html-img'
+path = require 'path'
+fs = require 'fs'
+{ inspect } = require 'util'
+{ WorkspaceView } = require 'atom'
 
-# Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-#
-# To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
-# or `fdescribe`). Remove the `f` to unfocus the block.
 
-describe "AutocompleteImageSize", ->
-  activationPromise = null
+openFile = (filename) ->
+  atom.workspaceView = new WorkspaceView
+  atom.project.setPath path.join __dirname, 'fixtures'
+  atom.workspaceView.openSync filename
+  atom.workspaceView.attachToDom()
+  editorView = atom.workspaceView.getActiveView()
+  editor = editorView.getEditor()
+  { editorView, editor }
 
-  beforeEach ->
-    atom.workspaceView = new WorkspaceView
-    activationPromise = atom.packages.activatePackage('html-img')
+loadGrammar = (grammar) ->
+  languagePath = atom.packages.resolvePackagePath "language-#{grammar}"
+  grammarsPath = path.resolve languagePath, 'grammars'
+  for filename in fs.readdirSync grammarsPath
+    atom.syntax.loadGrammarSync path.resolve grammarsPath, filename
 
-  describe "when the html-img:toggle event is triggered", ->
-    it "attaches and then detaches the view", ->
-      expect(atom.workspaceView.find('.html-img')).not.toExist()
+activatePackage = (callback) ->
+  activationPromise = atom.packages.activatePackage 'html-img'
+  .then ({ mainModule }) ->
+    callback mainModule.watchers[0]
 
-      # This is an activation event, triggering it will cause the package to be
-      # activated.
-      atom.workspaceView.trigger 'html-img:toggle'
 
+describe "main", ->
+
+  describe "when '.html' files are opened", ->
+
+    [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
+
+    beforeEach ->
+      { editorView, editor } = openFile 'path-url.html'
+      loadGrammar 'html'
+      activationPromise = activatePackage (w) ->
+        workspace = w
+
+    it "should support url", ->
       waitsForPromise ->
         activationPromise
-
       runs ->
-        expect(atom.workspaceView.find('.html-img')).toExist()
-        atom.workspaceView.trigger 'html-img:toggle'
-        expect(atom.workspaceView.find('.html-img')).not.toExist()
+        editor.setCursorBufferPosition [0, 1]
+        editorView.trigger 'html-img:fill'
+      waits 1000
+      runs ->
+        expect(editor.getText()).toBe('<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')

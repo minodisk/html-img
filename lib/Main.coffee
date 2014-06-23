@@ -1,3 +1,4 @@
+languages = require './languages'
 Watcher = require './Watcher'
 
 module.exports =
@@ -36,7 +37,7 @@ class Main
   ###
 
   onCreated: (editorView) =>
-    watcher = new Watcher editorView
+    watcher = new Watcher editorView, languages
     watcher.on 'destroyed', @onDestroyed
     @watchers.push watcher
 
