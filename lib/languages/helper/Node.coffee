@@ -4,16 +4,23 @@
 module.exports =
 class Node
 
-  constructor: (@range, @text, @src) ->
+  constructor: (@range, @text, src) ->
+    @src = src
+    .replace /^\s+/, ''
+    .replace /\s+$/, ''
 
   getPath: (base) ->
-    src = @src.replace(/^\s+/, '').replace(/\s+$/, '')
-    unless /^https?:\/{2}/.test src
-      if /^\/{2}/.test src
-        src = "https:#{src}"
-      else if /^\//.test src
+    src = @src
+
+    if /^https?:\/{2}/.test src
+      return src
+
+    matched = src.match /^(\/+)/
+    if matched?
+      if matched[1].length is 1
         console.log atom.project.resolve ".#{src}"
-        src = atom.project.resolve ".#{src}"
+        return atom.project.resolve ".#{src}"
       else
-        src = resolve dirname(base), src
-    @src = src
+        return "https:#{src}"
+    else
+      return resolve dirname(base), src
