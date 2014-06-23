@@ -1,13 +1,19 @@
+{ dirname, resolve } = require 'path'
+
+
 module.exports =
 class Node
 
-  constructor: (@range, @text, src) ->
-    src = src.replace(/^\s+/, '').replace(/\s+$/, '')
+  constructor: (@range, @text, @src) ->
+
+  getPath: (base) ->
+    src = @src.replace(/^\s+/, '').replace(/\s+$/, '')
     unless /^https?:\/{2}/.test src
       if /^\/{2}/.test src
         src = "https:#{src}"
       else if /^\//.test src
-        src = atom.project.resolve "./#{src.substr 1}"
+        console.log atom.project.resolve ".#{src}"
+        src = atom.project.resolve ".#{src}"
       else
-        src = atom.project.resolve src
+        src = resolve dirname(base), src
     @src = src

@@ -34,7 +34,7 @@ describe "main", ->
       [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
 
       beforeEach ->
-        { editorView, editor } = openFile 'path-url-with-protocol.html'
+        { editorView, editor } = openFile 'htdocs/path-url-with-protocol.html'
         loadGrammar 'html'
         activationPromise = activatePackage (w) ->
           workspace = w
@@ -45,7 +45,7 @@ describe "main", ->
         runs ->
           editor.setCursorBufferPosition [0, 1]
           editorView.trigger 'html-img:fill'
-        waits 1000
+        waits 100
         runs ->
           expect(editor.getText()).toBe('<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
 
@@ -54,7 +54,7 @@ describe "main", ->
       [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
 
       beforeEach ->
-        { editorView, editor } = openFile 'path-url-without-protocol.html'
+        { editorView, editor } = openFile 'htdocs/path-url-without-protocol.html'
         loadGrammar 'html'
         activationPromise = activatePackage (w) ->
           workspace = w
@@ -65,7 +65,7 @@ describe "main", ->
         runs ->
           editor.setCursorBufferPosition [0, 1]
           editorView.trigger 'html-img:fill'
-        waits 1000
+        waits 100
         runs ->
           expect(editor.getText()).toBe('<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
 
@@ -74,7 +74,7 @@ describe "main", ->
       [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
 
       beforeEach ->
-        { editorView, editor } = openFile 'path-absolute.html'
+        { editorView, editor } = openFile 'htdocs/path-absolute.html'
         loadGrammar 'html'
         activationPromise = activatePackage (w) ->
           workspace = w
@@ -85,7 +85,7 @@ describe "main", ->
         runs ->
           editor.setCursorBufferPosition [0, 1]
           editorView.trigger 'html-img:fill'
-        waits 1000
+        waits 100
         runs ->
           expect(editor.getText()).toBe('<img src="/images/example.png" width="800" height="500">\n')
 
@@ -94,7 +94,7 @@ describe "main", ->
       [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
 
       beforeEach ->
-        { editorView, editor } = openFile 'path-relative.html'
+        { editorView, editor } = openFile 'htdocs/path-relative.html'
         loadGrammar 'html'
         activationPromise = activatePackage (w) ->
           workspace = w
@@ -105,7 +105,7 @@ describe "main", ->
         runs ->
           editor.setCursorBufferPosition [0, 1]
           editorView.trigger 'html-img:fill'
-        waits 1000
+        waits 100
         runs ->
           expect(editor.getText()).toBe('<img src="images/example.png" width="800" height="500">\n')
 
@@ -114,7 +114,7 @@ describe "main", ->
     [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
 
     beforeEach ->
-      { editorView, editor } = openFile 'path-url.jade'
+      { editorView, editor } = openFile 'htdocs/path-url.jade'
       loadGrammar 'jade'
       activationPromise = activatePackage (w) ->
         workspace = w
@@ -125,6 +125,6 @@ describe "main", ->
       runs ->
         editor.setCursorBufferPosition [0, 1]
         editorView.trigger 'html-img:fill'
-      waits 1000
+      waits 100
       runs ->
         expect(editor.getText()).toBe('img(src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png", width="410", height="342")\n')

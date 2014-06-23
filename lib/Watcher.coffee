@@ -61,18 +61,20 @@ class Watcher extends EventEmitter
 
   onFillTriggered: =>
     textBuffer = @editor.buffer
+    base = @editor.getUri()
     for cursor in @editor.cursors
       node = @language.find cursor, textBuffer
       if node?
         do (node) =>
-          console.log inspect node.src
+          path = node.getPath base
+          # console.log path
           $img = $ '<img>'
           .one 'load', =>
-            # console.log inspect [node.src, $img.width(), $img.height()]
+            # console.log inspect [path, $img.width(), $img.height()]
             text = @language.replace node, new Size $img.width(), $img.height()
             if text?
               textBuffer.setTextInRange node.range, text
             $img.remove()
-          .attr 'src', node.src
+          .attr 'src', path
           .hide()
           .appendTo @editorView.overlayer
