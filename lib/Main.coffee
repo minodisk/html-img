@@ -1,4 +1,5 @@
 languages = require './languages'
+project = require './project'
 Watcher = require './Watcher'
 
 module.exports =
