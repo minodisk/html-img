@@ -5,7 +5,7 @@ Fill image size automatically :satisfied:
 ### Supported Language
 
 - HTML
-- Jade
+- [Jade](http://jade-lang.com/)
 
 ### Supported url type
 
