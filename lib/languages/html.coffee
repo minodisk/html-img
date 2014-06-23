@@ -23,7 +23,7 @@ module.exports =
     return if /</.test textAfter
 
     text = textBefore + textAfter
-    matched = text.match /<img.+?src="(.*?)"/
+    matched = text.match /<img.+?src=["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
 
     new Node range, text, src
@@ -38,8 +38,4 @@ module.exports =
     else
       text = text.replace /\s*(\/?>)$/, " height=\"#{height}\"$1"
 
-    console.log range, text
-
     text
-
-    # textBuffer.setTextInRange range, text

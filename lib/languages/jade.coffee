@@ -1,0 +1,27 @@
+{ Point, Range } = require 'atom'
+Node = require './helper/Node'
+
+
+module.exports =
+
+  find: (cursor, textBuffer) ->
+    row = cursor.getBufferRow()
+    range = textBuffer.rangeForRow row, false
+    text = textBuffer.lineForRow row
+
+    matched = text.match /img.+?src=["'](.*?)["']/
+    return unless (src = matched?[1])? and src isnt ''
+
+    new Node range, text, src
+
+  replace: ({ range, text }, { width, height }) ->
+    if /width/.test text
+      text = text.replace /width(?:=["'].*?["'])?/, "width=\"#{width}\""
+    else
+      text = text.replace /,?\s*\)/, ", width=\"#{width}\")"
+    if /height/.test text
+      text = text.replace /height(?:=["'].*?["'])?/, "height=\"#{height}\""
+    else
+      text = text.replace /,?\s*\)$/, ", height=\"#{height}\")"
+
+    text

@@ -46,3 +46,23 @@ describe "main", ->
       waits 1000
       runs ->
         expect(editor.getText()).toBe('<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
+
+  describe "when '.jade' files are opened", ->
+
+    [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
+
+    beforeEach ->
+      { editorView, editor } = openFile 'path-url.jade'
+      loadGrammar 'jade'
+      activationPromise = activatePackage (w) ->
+        workspace = w
+
+    it "should support url", ->
+      waitsForPromise ->
+        activationPromise
+      runs ->
+        editor.setCursorBufferPosition [0, 1]
+        editorView.trigger 'html-img:fill'
+      waits 1000
+      runs ->
+        expect(editor.getText()).toBe('img(src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png", width="410", height="342")\n')

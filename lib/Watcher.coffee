@@ -2,6 +2,8 @@
 { $, Point, Range } = require 'atom'
 Size = require './languages/helper/Size'
 
+{ inspect } = require 'util'
+
 
 module.exports =
 class Watcher extends EventEmitter
