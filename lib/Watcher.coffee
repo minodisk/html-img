@@ -65,8 +65,10 @@ class Watcher extends EventEmitter
       node = @language.find cursor, textBuffer
       if node?
         do (node) =>
+          console.log inspect node.src
           $img = $ '<img>'
           .one 'load', =>
+            # console.log inspect [node.src, $img.width(), $img.height()]
             text = @language.replace node, new Size $img.width(), $img.height()
             if text?
               textBuffer.setTextInRange node.range, text

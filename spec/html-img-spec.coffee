@@ -29,23 +29,85 @@ describe "main", ->
 
   describe "when '.html' files are opened", ->
 
-    [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
+    describe "supports url with protocol path", ->
 
-    beforeEach ->
-      { editorView, editor } = openFile 'path-url.html'
-      loadGrammar 'html'
-      activationPromise = activatePackage (w) ->
-        workspace = w
+      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
 
-    it "should support url", ->
-      waitsForPromise ->
-        activationPromise
-      runs ->
-        editor.setCursorBufferPosition [0, 1]
-        editorView.trigger 'html-img:fill'
-      waits 1000
-      runs ->
-        expect(editor.getText()).toBe('<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
+      beforeEach ->
+        { editorView, editor } = openFile 'path-url-with-protocol.html'
+        loadGrammar 'html'
+        activationPromise = activatePackage (w) ->
+          workspace = w
+
+      it "should support url", ->
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          editor.setCursorBufferPosition [0, 1]
+          editorView.trigger 'html-img:fill'
+        waits 1000
+        runs ->
+          expect(editor.getText()).toBe('<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
+
+    describe "supports url without protocol path", ->
+
+      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
+
+      beforeEach ->
+        { editorView, editor } = openFile 'path-url-without-protocol.html'
+        loadGrammar 'html'
+        activationPromise = activatePackage (w) ->
+          workspace = w
+
+      it "should support url", ->
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          editor.setCursorBufferPosition [0, 1]
+          editorView.trigger 'html-img:fill'
+        waits 1000
+        runs ->
+          expect(editor.getText()).toBe('<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
+
+    describe "supports absolute path", ->
+
+      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
+
+      beforeEach ->
+        { editorView, editor } = openFile 'path-absolute.html'
+        loadGrammar 'html'
+        activationPromise = activatePackage (w) ->
+          workspace = w
+
+      it "should support url", ->
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          editor.setCursorBufferPosition [0, 1]
+          editorView.trigger 'html-img:fill'
+        waits 1000
+        runs ->
+          expect(editor.getText()).toBe('<img src="/images/example.png" width="800" height="500">\n')
+
+    describe "supports relative path", ->
+
+      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
+
+      beforeEach ->
+        { editorView, editor } = openFile 'path-relative.html'
+        loadGrammar 'html'
+        activationPromise = activatePackage (w) ->
+          workspace = w
+
+      it "should support url", ->
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          editor.setCursorBufferPosition [0, 1]
+          editorView.trigger 'html-img:fill'
+        waits 1000
+        runs ->
+          expect(editor.getText()).toBe('<img src="images/example.png" width="800" height="500">\n')
 
   describe "when '.jade' files are opened", ->
 
