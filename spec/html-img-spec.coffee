@@ -1,12 +1,12 @@
-path = require 'path'
-fs = require 'fs'
+{ join, resolve, extname } = require 'path'
+{ readdirSync } = require 'fs'
 { inspect } = require 'util'
 { WorkspaceView } = require 'atom'
 
 
 openFile = (filename) ->
   atom.workspaceView = new WorkspaceView
-  atom.project.setPath path.join __dirname, 'fixtures'
+  atom.project.setPath join __dirname, 'fixtures'
   atom.workspaceView.openSync filename
   atom.workspaceView.attachToDom()
   editorView = atom.workspaceView.getActiveView()
@@ -15,116 +15,54 @@ openFile = (filename) ->
 
 loadGrammar = (grammar) ->
   languagePath = atom.packages.resolvePackagePath "language-#{grammar}"
-  grammarsPath = path.resolve languagePath, 'grammars'
-  for filename in fs.readdirSync grammarsPath
-    atom.syntax.loadGrammarSync path.resolve grammarsPath, filename
+  grammarsPath = resolve languagePath, 'grammars'
+  for filename in readdirSync grammarsPath
+    atom.syntax.loadGrammarSync resolve grammarsPath, filename
 
-activatePackage = (callback) ->
-  activationPromise = atom.packages.activatePackage 'html-img'
+activatePackage = (name, callback) ->
+  activationPromise = atom.packages.activatePackage name
   .then ({ mainModule }) ->
-    callback mainModule.watchers[0]
+    callback? mainModule.watchers[0]
+
+assert = (file, command, expected) ->
+  [ workspace ] = []
+  { editorView, editor } = openFile file
+  loadGrammar extname(file).replace(/^\./, '')
+  waitsForPromise -> activatePackage 'html-img'
+  runs ->
+    editor.setCursorBufferPosition [0, 1]
+    editorView.trigger command
+  waits 100
+  runs ->
+    expect(editor.getText()).toBe("#{expected}\n")
 
 
-describe "main", ->
 
-  describe "when '.html' files are opened", ->
+describe "html-img", ->
+
+  describe "supports variable types of path", ->
 
     describe "supports url with protocol path", ->
 
-      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
-
-      beforeEach ->
-        { editorView, editor } = openFile 'htdocs/path-url-with-protocol.html'
-        loadGrammar 'html'
-        activationPromise = activatePackage (w) ->
-          workspace = w
-
       it "should support url", ->
-        waitsForPromise ->
-          activationPromise
-        runs ->
-          editor.setCursorBufferPosition [0, 1]
-          editorView.trigger 'html-img:fill'
-        waits 100
-        runs ->
-          expect(editor.getText()).toBe('<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
+        assert 'htdocs/path-url-with-protocol.html', 'html-img:fill', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
 
     describe "supports url without protocol path", ->
 
-      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
-
-      beforeEach ->
-        { editorView, editor } = openFile 'htdocs/path-url-without-protocol.html'
-        loadGrammar 'html'
-        activationPromise = activatePackage (w) ->
-          workspace = w
-
       it "should support url", ->
-        waitsForPromise ->
-          activationPromise
-        runs ->
-          editor.setCursorBufferPosition [0, 1]
-          editorView.trigger 'html-img:fill'
-        waits 100
-        runs ->
-          expect(editor.getText()).toBe('<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">\n')
+        assert 'htdocs/path-url-without-protocol.html', 'html-img:fill', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
 
     describe "supports absolute path", ->
 
-      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
-
-      beforeEach ->
-        { editorView, editor } = openFile 'htdocs/path-absolute.html'
-        loadGrammar 'html'
-        activationPromise = activatePackage (w) ->
-          workspace = w
-
       it "should support url", ->
-        waitsForPromise ->
-          activationPromise
-        runs ->
-          editor.setCursorBufferPosition [0, 1]
-          editorView.trigger 'html-img:fill'
-        waits 100
-        runs ->
-          expect(editor.getText()).toBe('<img src="/images/example.png" width="800" height="500">\n')
+        assert 'htdocs/path-absolute.html', 'html-img:fill', '<img src="/images/example.png" width="800" height="500">'
 
     describe "supports relative path", ->
 
-      [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
-
-      beforeEach ->
-        { editorView, editor } = openFile 'htdocs/path-relative.html'
-        loadGrammar 'html'
-        activationPromise = activatePackage (w) ->
-          workspace = w
-
       it "should support url", ->
-        waitsForPromise ->
-          activationPromise
-        runs ->
-          editor.setCursorBufferPosition [0, 1]
-          editorView.trigger 'html-img:fill'
-        waits 100
-        runs ->
-          expect(editor.getText()).toBe('<img src="images/example.png" width="800" height="500">\n')
+        assert 'htdocs/path-relative.html', 'html-img:fill', '<img src="images/example.png" width="800" height="500">'
 
-  describe "when '.jade' files are opened", ->
-
-    [ editorView, editor, activationPromise, workspace, errorView, referenceView ] = []
-
-    beforeEach ->
-      { editorView, editor } = openFile 'htdocs/path-url.jade'
-      loadGrammar 'jade'
-      activationPromise = activatePackage (w) ->
-        workspace = w
+  describe "supports Jade", ->
 
     it "should support url", ->
-      waitsForPromise ->
-        activationPromise
-      runs ->
-        editor.setCursorBufferPosition [0, 1]
-        editorView.trigger 'html-img:fill'
-      waits 100
-      runs ->
-        expect(editor.getText()).toBe('img(src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png", width="410", height="342")\n')
+      assert 'htdocs/jade/grammar-jade-1.jade', 'html-img:fill', 'img(src="/images/example.png", width="800", height="500")'

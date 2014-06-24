@@ -1,5 +1,5 @@
 '.editor:not(.mini)':
-  'ctrl-f': 'html-img:fill'
-  'ctrl-f f': 'html-img:fill'
-  'ctrl-f w': 'html-img:fill-width'
-  'ctrl-f h': 'html-img:fill-height'
+  'ctrl-i': 'html-img:fill'
+  'ctrl-i i': 'html-img:fill'
+  'ctrl-i w': 'html-img:fill-width'
+  'ctrl-i h': 'html-img:fill-height'

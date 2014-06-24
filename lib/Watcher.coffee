@@ -61,7 +61,7 @@ class Watcher extends EventEmitter
     # Remove references
     delete @language
 
-  onFillTriggered: =>
+  onFillTriggered: (e) =>
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
@@ -80,3 +80,4 @@ class Watcher extends EventEmitter
           .attr 'src', path
           .hide()
           .appendTo @editorView.overlayer
+    e.abortKeyBinding()

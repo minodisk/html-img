@@ -1,6 +1,6 @@
 ###
-Grammar definition for jade.
-http://jade-lang.com/
+Grammar definition for coffeecup.
+https://github.com/mizchi/coffeecup
 ###
 
 
@@ -11,7 +11,7 @@ Node = require './helper/Node'
 module.exports =
 
   grammars: [
-    'jade'
+    'coffee'
   ]
 
   find: (cursor, textBuffer) ->

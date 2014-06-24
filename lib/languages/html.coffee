@@ -1,8 +1,19 @@
+###
+Grammar definition for html, ejs and eco.
+###
+
+
 { Point, Range } = require 'atom'
 Node = require './helper/Node'
 
 
 module.exports =
+
+  grammars: [
+    'html'
+    'ejs'
+    'eco'
+  ]
 
   find: (cursor, textBuffer) ->
     current = cursor.getBufferPosition()
