@@ -62,7 +62,16 @@ describe "html-img", ->
       it "should support url", ->
         assert 'htdocs/path-relative.html', 'html-img:fill', '<img src="images/example.png" width="800" height="500">'
 
-  describe "supports Jade", ->
+  describe "in Jade", ->
 
-    it "should support url", ->
-      assert 'htdocs/jade/grammar-jade-1.jade', 'html-img:fill', 'img(src="/images/example.png", width="800", height="500")'
+    it "supports base-absolute", ->
+      assert 'htdocs/jade/base-absolute.jade', 'html-img:fill', 'img(src="/images/example.png", width="800", height="500")'
+
+    it "supports base-relative", ->
+      assert 'htdocs/jade/base-relative.jade', 'html-img:fill', 'img(src="../images/example.png", width="800", height="500")'
+
+    it "supports protocol-absolute", ->
+      assert 'htdocs/jade/protocol-absolute.jade', 'html-img:fill', 'img(src="https://cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png", width="800", height="500")'
+
+    it "supports protocol-relative", ->
+      assert 'htdocs/jade/protocol-relative.jade', 'html-img:fill', 'img(src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png", width="800", height="500")'
