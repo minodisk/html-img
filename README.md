@@ -2,6 +2,8 @@
 
 :sparkles: Fill image size automatically :sparkles:
 
+![capture](https://cloud.githubusercontent.com/assets/514164/3368247/cbc085a0-fb71-11e3-9e67-4288427a3861.gif)
+
 ## Keymap
 
 - `ctrl-i`: Fill width and height
