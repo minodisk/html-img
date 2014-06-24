@@ -2,6 +2,9 @@
 { $, Point, Range } = require 'atom'
 Languages = require './Languages'
 Size = require './languages/helper/Size'
+{ round } = Math
+
+{ inspect } = require 'util'
 
 
 module.exports =
@@ -51,6 +54,7 @@ class Watcher extends EventEmitter
 
     # Start listening
     @editorView.on 'html-img:fill', @onFillBoth
+    @editorView.on 'html-img:fill-half', @onFillBothHalf
     @editorView.on 'html-img:fill-width', @onFillWidth
     @editorView.on 'html-img:fill-height', @onFillHeight
 
@@ -69,6 +73,9 @@ class Watcher extends EventEmitter
     # e.abortKeyBinding()
     @fill BOTH
 
+  onFillBothHalf: (e) =>
+    @fill BOTH, 0.5
+
   onFillWidth: (e) =>
     # e.abortKeyBinding()
     @fill WIDTH
@@ -77,7 +84,7 @@ class Watcher extends EventEmitter
     # e.abortKeyBinding()
     @fill HEIGHT
 
-  fill: (flag) ->
+  fill: (flag, scale = 1) ->
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
@@ -89,9 +96,9 @@ class Watcher extends EventEmitter
           .one 'load', =>
             size = new Size
             if (flag & WIDTH) isnt 0
-              size.width = $img.width()
+              size.width = round $img.width() * scale
             if (flag & HEIGHT) isnt 0
-              size.height = $img.height()
+              size.height = round $img.height() * scale
             text = @language.replace node, size
             if text?
               textBuffer.setTextInRange node.range, text
