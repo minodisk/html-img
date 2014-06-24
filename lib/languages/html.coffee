@@ -40,13 +40,14 @@ module.exports =
     new Node range, text, src
 
   replace: ({ range, text }, { width, height }) ->
-    if /width/.test text
-      text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""
-    else
-      text = text.replace /\s*(\/?>)$/, " width=\"#{width}\"$1"
-    if /height/.test text
-      text = text.replace /height(?:=".*?")?/, "height=\"#{height}\""
-    else
-      text = text.replace /\s*(\/?>)$/, " height=\"#{height}\"$1"
-
+    if width?
+      if /width/.test text
+        text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""
+      else
+        text = text.replace /\s*(\/?>)$/, " width=\"#{width}\"$1"
+    if height?
+      if /height/.test text
+        text = text.replace /height(?:=".*?")?/, "height=\"#{height}\""
+      else
+        text = text.replace /\s*(\/?>)$/, " height=\"#{height}\"$1"
     text
