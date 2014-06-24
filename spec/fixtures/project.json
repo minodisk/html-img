@@ -1,4 +1,4 @@
 {
-  "root": "htdocs",
+  "document_root": "htdocs",
   "protocol": "https"
 }

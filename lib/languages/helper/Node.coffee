@@ -20,7 +20,7 @@ class Node
     matched = src.match /^(\/+)/
     if matched? and (slashes = matched[1])?
       if slashes.length is 1
-        return atom.project.resolve "#{@project.get('root')}#{src}"
+        return atom.project.resolve "#{@project.get('document_root')}#{src}"
       else
         return "#{@project.get('protocol')}:#{src}"
     else

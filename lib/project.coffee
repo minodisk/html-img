@@ -23,7 +23,7 @@ class Project
       data = JSON.parse readFileSync pathJson
 
     @data = assign
-      root: ''
+      document_root: ''
       protocol: 'http'
     , data
 
