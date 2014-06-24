@@ -3,11 +3,15 @@
 Languages = require './Languages'
 Size = require './languages/helper/Size'
 
-{ inspect } = require 'util'
-
 
 module.exports =
 class Watcher extends EventEmitter
+
+
+  WIDTH = 1
+  HEIGHT = 2
+  BOTH = WIDTH | HEIGHT
+
 
   # Life-cycle
 
@@ -46,22 +50,34 @@ class Watcher extends EventEmitter
     return if @isActive
 
     # Start listening
-    @editorView.on 'html-img:fill', @onFillTriggered
-    @editorView.on 'html-img:fill-width', @onFillTriggered
-    @editorView.on 'html-img:fill-height', @onFillTriggered
+    @editorView.on 'html-img:fill', @onFillBoth
+    @editorView.on 'html-img:fill-width', @onFillWidth
+    @editorView.on 'html-img:fill-height', @onFillHeight
 
   deactivate: ->
     return unless @isActive
 
     # Stop listening
-    @editorView.off 'html-img:fill', @onFillTriggered
-    @editorView.off 'html-img:fill-width', @onFillTriggered
-    @editorView.off 'html-img:fill-height', @onFillTriggered
+    @editorView.off 'html-img:fill', @onFillBoth
+    @editorView.off 'html-img:fill-width', @onFillWidth
+    @editorView.off 'html-img:fill-height', @onFillHeight
 
     # Remove references
     delete @language
 
-  onFillTriggered: (e) =>
+  onFillBoth: (e) =>
+    # e.abortKeyBinding()
+    @fill BOTH
+
+  onFillWidth: (e) =>
+    # e.abortKeyBinding()
+    @fill WIDTH
+
+  onFillHeight: (e) =>
+    # e.abortKeyBinding()
+    @fill HEIGHT
+
+  fill: (flag) ->
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
@@ -69,15 +85,17 @@ class Watcher extends EventEmitter
       if node?
         do (node) =>
           path = node.getPath base
-          # console.log path
           $img = $ '<img>'
           .one 'load', =>
-            # console.log inspect [path, $img.width(), $img.height()]
-            text = @language.replace node, new Size $img.width(), $img.height()
+            size = new Size
+            if (flag & WIDTH) isnt 0
+              size.width = $img.width()
+            if (flag & HEIGHT) isnt 0
+              size.height = $img.height()
+            text = @language.replace node, size
             if text?
               textBuffer.setTextInRange node.range, text
             $img.remove()
           .attr 'src', path
           .hide()
           .appendTo @editorView.overlayer
-    e.abortKeyBinding()

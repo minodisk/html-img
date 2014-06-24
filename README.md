@@ -6,9 +6,11 @@
 
 ## Keymap
 
-- `ctrl-i`: Fill width and height
+- `ctrl-i`, `ctrl-i i`: Fill width and height
+- `ctrl-i w`: Fill width
+- `ctrl-i h`: Fill height
 
-Override keymap with `Atom > Open Your Keymap`.
+Override [keymap](https://github.com/minodisk/html-img/blob/master/keymaps/html-img.cson) with `Atom > Open Your Keymap`.
 
 ## Supported grammar
 

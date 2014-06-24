@@ -25,13 +25,14 @@ module.exports =
     new Node range, text, src
 
   replace: ({ range, text }, { width, height }) ->
-    if /width/.test text
-      text = text.replace /width(?:=["'].*?["'])?/, "width=\"#{width}\""
-    else
-      text = text.replace /,?\s*\)/, ", width=\"#{width}\")"
-    if /height/.test text
-      text = text.replace /height(?:=["'].*?["'])?/, "height=\"#{height}\""
-    else
-      text = text.replace /,?\s*\)$/, ", height=\"#{height}\")"
-
+    if width?
+      if /width/.test text
+        text = text.replace /width(?:=["'].*?["'])?/, "width=\"#{width}\""
+      else
+        text = text.replace /,?\s*\)/, ", width=\"#{width}\")"
+    if height?
+      if /height/.test text
+        text = text.replace /height(?:=["'].*?["'])?/, "height=\"#{height}\""
+      else
+        text = text.replace /,?\s*\)$/, ", height=\"#{height}\")"
     text
