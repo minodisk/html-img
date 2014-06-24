@@ -9,7 +9,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "cson": "^1.6.0"
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

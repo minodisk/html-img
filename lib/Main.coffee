@@ -1,5 +1,3 @@
-languages = require './languages'
-project = require './project'
 Watcher = require './Watcher'
 
 module.exports =
@@ -19,6 +17,7 @@ class Main
 
   activate: (state) ->
     @watchers = []
+
     atom.workspaceView.eachEditorView @onCreated
     atom.workspaceView.command @renameCommand, @onRename
     atom.workspaceView.command @doneCommand, @onDone
@@ -26,6 +25,7 @@ class Main
   deactivate: ->
     atom.workspaceView.off @renameCommand, @onRename
     atom.workspaceView.off @doneCommand, @onDone
+
     for watcher in @watchers
       watcher.destruct()
     delete @watchers
@@ -38,7 +38,7 @@ class Main
   ###
 
   onCreated: (editorView) =>
-    watcher = new Watcher editorView, languages
+    watcher = new Watcher editorView
     watcher.on 'destroyed', @onDestroyed
     @watchers.push watcher
 

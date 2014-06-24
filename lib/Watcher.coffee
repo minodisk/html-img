@@ -1,5 +1,6 @@
 { EventEmitter } = require 'events'
 { $, Point, Range } = require 'atom'
+Languages = require './Languages'
 Size = require './languages/helper/Size'
 
 { inspect } = require 'util'
@@ -12,6 +13,7 @@ class Watcher extends EventEmitter
 
   constructor: (@editorView, @languages) ->
     super()
+    @languages = Languages.getInstance()
     @isActive = false
     @editor = @editorView.editor
     @editor.on 'grammar-changed', @checkGrammar
@@ -36,8 +38,8 @@ class Watcher extends EventEmitter
 
   checkGrammar: =>
     @deactivate()
-    grammar = @editor.getGrammar().name.toLowerCase()
-    return unless (@language = @languages[grammar])?
+    language = @editor.getGrammar().name.toLowerCase()
+    return unless (@language = @languages.getDefinition language)?
     @activate()
 
   activate: ->

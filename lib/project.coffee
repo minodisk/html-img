@@ -1,12 +1,31 @@
-{ readFileSync, statSync } = require 'fs'
-{ parseFileSync } = require 'cson'
+{ existsSync, readFileSync } = require 'fs'
+{ assign } = require 'lodash'
 
-hasFile = (filename) ->
-  statSync(atom.project.resolve filename).isFile()
 
-console.log atom.project.resolve 'project.cson'
+module.exports =
+class Project
 
-# if hasFile 'project.cson'
-#   console.log parseFileSync fileCson
-# else if hasFile 'project.json'
-#   console.log JSON.parse readFileSync fileCson
+  isInternal = false
+  instance = null
+
+
+  @getInstance: ->
+    return instance if instance?
+    isInternal = true
+    instance = new Project
+    isInternal = false
+    instance
+
+
+  constructor: ->
+    pathJson = atom.project.resolve 'project.json'
+    if existsSync pathJson
+      data = JSON.parse readFileSync pathJson
+
+    @data = assign
+      root: ''
+      protocol: 'http'
+    , data
+
+  get: (key) ->
+    @data[key]

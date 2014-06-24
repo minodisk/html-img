@@ -1,10 +1,12 @@
-{ dirname, resolve } = require 'path'
+{ dirname, resolve, join } = require 'path'
+Project = require '../../Project'
 
 
 module.exports =
 class Node
 
   constructor: (@range, @text, src) ->
+    @project = Project.getInstance()
     @src = src
     .replace /^\s+/, ''
     .replace /\s+$/, ''
@@ -16,11 +18,10 @@ class Node
       return src
 
     matched = src.match /^(\/+)/
-    if matched?
-      if matched[1].length is 1
-        console.log atom.project.resolve ".#{src}"
-        return atom.project.resolve ".#{src}"
+    if matched? and (slashes = matched[1])?
+      if slashes.length is 1
+        return atom.project.resolve "#{@project.get('root')}#{src}"
       else
-        return "https:#{src}"
+        return "#{@project.get('protocol')}:#{src}"
     else
       return resolve dirname(base), src
