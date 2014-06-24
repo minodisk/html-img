@@ -40,27 +40,19 @@ assert = (file, command, expected) ->
 
 describe "html-img", ->
 
-  describe "supports variable types of path", ->
+  describe "in HTML", ->
 
-    describe "supports url with protocol path", ->
+    it "supports base-absolute", ->
+      assert 'htdocs/html/base-absolute.html', 'html-img:fill', '<img src="/images/example.png" width="800" height="500">'
 
-      it "should support url", ->
-        assert 'htdocs/path-url-with-protocol.html', 'html-img:fill', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
+    it "supports base-relative", ->
+      assert 'htdocs/html/base-relative.html', 'html-img:fill', '<img src="../images/example.png" width="800" height="500">'
 
-    describe "supports url without protocol path", ->
+    it "supports protocol-absolute", ->
+      assert 'htdocs/html/protocol-absolute.html', 'html-img:fill', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
 
-      it "should support url", ->
-        assert 'htdocs/path-url-without-protocol.html', 'html-img:fill', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
-
-    describe "supports absolute path", ->
-
-      it "should support url", ->
-        assert 'htdocs/path-absolute.html', 'html-img:fill', '<img src="/images/example.png" width="800" height="500">'
-
-    describe "supports relative path", ->
-
-      it "should support url", ->
-        assert 'htdocs/path-relative.html', 'html-img:fill', '<img src="images/example.png" width="800" height="500">'
+    it "supports protocol-relative", ->
+      assert 'htdocs/html/protocol-relative.html', 'html-img:fill', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
 
   describe "in Jade", ->
 
