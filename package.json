@@ -2,7 +2,7 @@
   "name": "html-img",
   "main": "./lib/html-img",
   "version": "0.1.0",
-  "description": "A short description of your package",
+  "description": "Fill image size automatically",
   "repository": "https://github.com/minodisk/html-img.git",
   "license": "MIT",
   "engines": {
