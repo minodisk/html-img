@@ -1,22 +1,52 @@
 # html-img package
 
-Fill image size automatically :satisfied:
+:sparkles: Fill image size automatically :sparkles:
 
-### Supported Language
+## Keymap
+
+- `ctrl-i`: Fill width and height
+
+Override keymap with `Atom > Open Your Keymap`.
+
+## Supported grammar
 
 - HTML
 - [Jade](http://jade-lang.com/)
 
-### Supported url type
+## Supported url type
 
-- Relative path (Like `images/smaple.png`)
-- Absolute path (Like `/images/sample.png`)
-- Address in web (Like `http://example.com/images/sample.png`)
+- Absolute url: Like `/images/sample.png` (requires project.json 'root' property)
+- Relative url: Like `images/smaple.png`
+- Protocol-absolute url: Like `http://example.com/images/sample.png`
+- Protocol-relative url: Like `//example.com/images/sample.png` (requires project.json 'protocol' property)
 
-### Supported image type
+## Supported image type
 
 - PNG
 - JPG
 - GIF
 
-![A screenshot of your spankin' package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+## Configuration
+
+When you specify `src` absolute or protocol-relative url, you can create `project.json` at the project root.
+
+### project.json
+
+- `document_root`: Used for resolving absolute url. Default is `''`.
+- `protocol`: Used for resolving protocol-relative url. Default is `'http'`.
+
+### Example
+
+```
+.
+├──htdocs          # Document root
+│   └──index.jade  # HTML/Jade files here
+└──project.json    # Configuration for html-img
+```
+
+```json
+{
+  "document_root": "htdocs",
+  "protocol": "https"
+}
+```
