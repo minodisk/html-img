@@ -2,6 +2,8 @@
 { readdirSync } = require 'fs'
 { WorkspaceView } = require 'atom'
 
+{ inspect } = require 'util'
+
 
 describe "html-img", ->
 
@@ -30,6 +32,9 @@ describe "html-img", ->
     waits 100
     runs ->
       expect(editor.getText()).toBe("#{expected}\n")
+      { start } = editor.getSelectedBufferRange()
+      expect(start.row).toBe(position[0])
+      expect(start.column).toBe(position[1])
       editor.undo()
 
   describe "in HTML", ->
