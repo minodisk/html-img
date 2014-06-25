@@ -2,7 +2,7 @@
 
 Fill image size automatically.
 
-![capture](https://cloud.githubusercontent.com/assets/514164/3368247/cbc085a0-fb71-11e3-9e67-4288427a3861.gif)
+![take-8](https://cloud.githubusercontent.com/assets/514164/3386329/338f2752-fc73-11e3-9aac-4a9f7b0e4312.gif)
 
 * Supports HTML, [Jade](http://jade-lang.com/)<!--, [EJS](http://embeddedjs.com/) -->
 * Supports png, jpg and gif
