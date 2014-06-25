@@ -100,9 +100,9 @@ class Watcher extends EventEmitter
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
-      node = @language.find cursor, textBuffer
-      if node?
-        do (node) =>
+      do (cursor) =>
+        node = @language.find cursor, textBuffer
+        if node?
           path = node.getPath base
           $img = $ '<img>'
           .one 'load', =>

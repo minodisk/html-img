@@ -18,34 +18,51 @@ module.exports =
     rangeBefore = new Range new Point(0, 0), current
     rangeAfter = new Range current, textBuffer.getEndPosition()
 
-    range = new Range
-    textBuffer.backwardsScanInRange /</, rangeBefore, ({ range: { start } }) ->
-      range.start = start
-    textBuffer.scanInRange />/, rangeAfter, ({ range: { end } }) ->
-      range.end = end
-    return unless range.start? and range.end?
-
-    textBefore = textBuffer.getTextInRange new Range range.start, current
-    return if />/.test textBefore
-
-    textAfter = textBuffer.getTextInRange new Range current, range.end
-    return if /</.test textAfter
-
-    text = textBefore + textAfter
-    matched = text.match /<img.+?src=["'](.*?)["']/
+    # 1. Get whole text
+    # 2. Replace ejs tags to white space
+    # 3. Find start of node before the cursor
+    # 4. Find end of node after the cursor
+    # 5. Join before and after texts to one node
+    [ rangeStart, rangeEnd ] = []
+    isBreak = false
+    textBuffer.backwardsScanInRange /<[\s\S]*?/, rangeBefore, ({ matchText, range: { start }, stop }) ->
+      if />/.test matchText
+        isBreak = true
+        return
+      console.log "before: #{matchText}"
+      rangeStart = start
+      stop()
+    return if isBreak
+    textBuffer.scanInRange /[\s\S]*?>/, rangeAfter, ({ matchText, range: { end }, stop }) ->
+      if /</.test matchText
+        isBreak = true
+        return
+      console.log "after: #{matchText}"
+      rangeEnd = end
+      stop()
+    return if isBreak
+    return unless rangeStart? and rangeEnd?
+    range = new Range rangeStart, rangeEnd
+    node = [
+      textBuffer.getTextInRange new Range range.start, current
+      textBuffer.getTextInRange new Range current, range.end
+    ].join ''
+    matched = node.match /<img\s[\s\S]*?src\s*=\s*["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
+    console.log "src: #{src}"
 
-    new Node range, text, src
+    new Node range, node, src
 
   replace: ({ range, text }, { width, height }) ->
+    console.log [width, height]
     if width?
       if /width/.test text
         text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""
       else
-        text = text.replace /\s*(\/?>)$/, " width=\"#{width}\"$1"
+        text = text.replace /[ ]?(\/?>)$/, " width=\"#{width}\"$1"
     if height?
       if /height/.test text
         text = text.replace /height(?:=".*?")?/, "height=\"#{height}\""
       else
-        text = text.replace /\s*(\/?>)$/, " height=\"#{height}\"$1"
+        text = text.replace /[ ]?(\/?>)$/, " height=\"#{height}\"$1"
     text
