@@ -34,8 +34,8 @@ describe "html-img", ->
 
   describe "in HTML", ->
 
-    it "recognizes node range", ->
-      editorView = open 'htdocs/html/node-range.html'
+    it "recognizes tag range", ->
+      editorView = open 'htdocs/html/tag-range.html'
       assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 0]
       for col in [1..32]
         assert editorView, 'html-img:fill', '<img src="../images/example.png" width="800" height="500"><img src="../images/example.png">', [0, col]
@@ -44,8 +44,8 @@ describe "html-img", ->
         assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png" width="800" height="500">', [0, col]
       assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 66]
 
-    it "recognizes spaced node", ->
-      editorView = open 'htdocs/html/node-spaced.html'
+    it "recognizes spaced tag", ->
+      editorView = open 'htdocs/html/tag-spaced.html'
       assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  >', [0, 0]
       assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [0, 1]
       assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [1, 1]
@@ -129,8 +129,8 @@ describe "html-img", ->
 
   # describe "in EJS", ->
   #
-  #   it "recognizes node range", ->
-  #     editorView = open 'htdocs/ejs/node-range.ejs'
+  #   it "recognizes tag range", ->
+  #     editorView = open 'htdocs/ejs/tag-range.ejs'
   #     assert editorView, 'html-img:fill', '<img src="../images/example.png" alt="<% if (foo < bar && bar > baz) { %><%= bar %><% } else { %><%- baz %><% } %>"><img src="../images/example.png" alt="<% if (foo < bar && bar > baz) { %><%= bar %><% } else { %><%- baz %><% } %>">', [0, 116]
   #
   #   it "supports base-absolute", ->

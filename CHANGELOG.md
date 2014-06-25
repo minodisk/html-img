@@ -1,6 +1,6 @@
 ## v0.2.1
 
-* Recognize spaced node in HTML
+* Recognize spaced tag in HTML
 
 ## v0.2.0
 * Support filling both width and height as half size
