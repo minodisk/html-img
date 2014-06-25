@@ -51,37 +51,49 @@ class Watcher extends EventEmitter
     return if @isActive
 
     # Start listening
-    @editorView.on 'html-img:fill', @onFillBoth
-    @editorView.on 'html-img:fill-half', @onFillBothHalf
+    @editorView.on 'html-img:fill', @onFill
+    @editorView.on 'html-img:fill-half', @onFillHalf
     @editorView.on 'html-img:fill-width', @onFillWidth
+    @editorView.on 'html-img:fill-width-half', @onFillWidthHalf
     @editorView.on 'html-img:fill-height', @onFillHeight
+    @editorView.on 'html-img:fill-height-half', @onFillHeightHalf
 
   deactivate: ->
     return unless @isActive
 
     # Stop listening
-    @editorView.off 'html-img:fill', @onFillBoth
-    @editorView.off 'html-img:fill-half', @onFillBothHalf
+    @editorView.off 'html-img:fill', @onFill
+    @editorView.off 'html-img:fill-half', @onFillHalf
     @editorView.off 'html-img:fill-width', @onFillWidth
+    @editorView.off 'html-img:fill-width-half', @onFillWidthHalf
     @editorView.off 'html-img:fill-height', @onFillHeight
+    @editorView.off 'html-img:fill-height-half', @onFillHeightHalf
 
     # Remove references
     delete @language
 
-  onFillBoth: (e) =>
+  onFill: (e) =>
     # e.abortKeyBinding()
     @fill BOTH
 
-  onFillBothHalf: (e) =>
+  onFillHalf: (e) =>
     @fill BOTH, 0.5
 
   onFillWidth: (e) =>
     # e.abortKeyBinding()
     @fill WIDTH
 
+  onFillWidthHalf: (e) =>
+    # e.abortKeyBinding()
+    @fill WIDTH, 0.5
+
   onFillHeight: (e) =>
     # e.abortKeyBinding()
     @fill HEIGHT
+
+  onFillHeightHalf: (e) =>
+    # e.abortKeyBinding()
+    @fill HEIGHT, 0.5
 
   fill: (flag, scale = 1) ->
     textBuffer = @editor.buffer
