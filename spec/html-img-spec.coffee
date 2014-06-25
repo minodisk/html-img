@@ -34,25 +34,6 @@ describe "html-img", ->
 
   describe "in HTML", ->
 
-    it "recognizes tag range", ->
-      editorView = open 'htdocs/html/tag-range.html'
-      assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 0]
-      for col in [1..32]
-        assert editorView, 'html-img:fill', '<img src="../images/example.png" width="800" height="500"><img src="../images/example.png">', [0, col]
-      assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 33]
-      for col in [34..65]
-        assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png" width="800" height="500">', [0, col]
-      assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 66]
-
-    it "recognizes spaced tag", ->
-      editorView = open 'htdocs/html/tag-spaced.html'
-      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  >', [0, 0]
-      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [0, 1]
-      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [1, 1]
-      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [2, 1]
-      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [3, 1]
-      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  >', [4, 0]
-
     it "supports base-absolute", ->
       editorView = open 'htdocs/html/base-absolute.html'
       assert editorView, 'html-img:fill', '<img src="/images/example.png" width="800" height="500">'
@@ -88,6 +69,29 @@ describe "html-img", ->
       assert editorView, 'html-img:fill-width-half', '<img src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" width="400">'
       assert editorView, 'html-img:fill-height', '<img src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" height="500">'
       assert editorView, 'html-img:fill-height-half', '<img src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" height="250">'
+
+    it "recognizes tag range", ->
+      editorView = open 'htdocs/html/tag-range.html'
+      assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 0]
+      for col in [1..32]
+        assert editorView, 'html-img:fill', '<img src="../images/example.png" width="800" height="500"><img src="../images/example.png">', [0, col]
+      assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 33]
+      for col in [34..65]
+        assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png" width="800" height="500">', [0, col]
+      assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 66]
+
+    it "recognizes spaced tag", ->
+      editorView = open 'htdocs/html/tag-spaced.html'
+      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  >', [0, 0]
+      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [0, 1]
+      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [1, 1]
+      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [2, 1]
+      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [3, 1]
+      assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  >', [4, 0]
+
+    it "recognizes closed tag", ->
+      editorView = open 'htdocs/html/tag-closed.html'
+      assert editorView, 'html-img:fill', '<img src="../images/example.png" width="800" height="500"/>'
 
   describe "in Jade", ->
 
