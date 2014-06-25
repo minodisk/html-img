@@ -19,7 +19,7 @@ Override [keymap](https://github.com/minodisk/html-img/blob/master/keymaps/html-
 
 - HTML
 - [Jade](http://jade-lang.com/)
-- [EJS](http://embeddedjs.com/)
+<!-- - [EJS](http://embeddedjs.com/) -->
 
 ## Supported url type
 
