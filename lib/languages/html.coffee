@@ -29,7 +29,6 @@ module.exports =
       if />/.test matchText
         isBreak = true
         return
-      console.log "before: #{matchText}"
       rangeStart = start
       stop()
     return if isBreak
@@ -37,7 +36,6 @@ module.exports =
       if /</.test matchText
         isBreak = true
         return
-      console.log "after: #{matchText}"
       rangeEnd = end
       stop()
     return if isBreak
@@ -49,12 +47,10 @@ module.exports =
     ].join ''
     matched = node.match /<img\s[\s\S]*?src\s*=\s*["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
-    console.log "src: #{src}"
 
     new Node range, node, src
 
   replace: ({ range, text }, { width, height }) ->
-    console.log [width, height]
     if width?
       if /width/.test text
         text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""
