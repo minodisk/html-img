@@ -1,4 +1,5 @@
 { EventEmitter } = require 'events'
+{ extname } = require 'path'
 { $, Point, Range } = require 'atom'
 Languages = require './Languages'
 Size = require './languages/helper/Size'
@@ -43,8 +44,8 @@ class Watcher extends EventEmitter
 
   checkGrammar: =>
     @deactivate()
-    language = @editor.getGrammar().name.toLowerCase()
-    return unless (@language = @languages.getDefinition language)?
+    ext = extname(@editor.getTitle()).replace(/^\./, '')
+    return unless (@language = @languages.getDefinition ext)?
     @activate()
 
   activate: ->
@@ -99,9 +100,9 @@ class Watcher extends EventEmitter
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
-      node = @language.find cursor, textBuffer
-      if node?
-        do (node) =>
+      do (cursor) =>
+        node = @language.find cursor, textBuffer
+        if node?
           path = node.getPath base
           $img = $ '<img>'
           .one 'load', =>

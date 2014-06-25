@@ -30,8 +30,11 @@ class Languages
         cls = require "./languages/#{language}"
       catch err
         continue
-      continue unless cls.find? and cls.replace?
-      @defs[language] = cls
+      unless cls.fileTypes? and cls.find? and cls.replace?
+        throw new Error 'language should be implemented `fileTypes`, `find()` and `replace()`'
+        continue
+      for fileType in cls.fileTypes
+        @defs[fileType] = cls
 
-  getDefinition: (language) ->
-    @defs[language]
+  getDefinition: (fileType) ->
+    @defs[fileType]
