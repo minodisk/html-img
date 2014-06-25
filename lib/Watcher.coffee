@@ -4,8 +4,6 @@ Languages = require './Languages'
 Size = require './languages/helper/Size'
 { round } = Math
 
-{ inspect } = require 'util'
-
 
 module.exports =
 class Watcher extends EventEmitter
@@ -93,11 +91,9 @@ class Watcher extends EventEmitter
       if node?
         do (node) =>
           path = node.getPath base
-          console.log path
           $img = $ '<img>'
           .one 'load', =>
             size = new Size
-            console.log [$img.width(), $img.height(), scale]
             if (flag & WIDTH) isnt 0
               size.width = round $img.width() * scale
             if (flag & HEIGHT) isnt 0
