@@ -2,6 +2,7 @@
 { $, Point, Range } = require 'atom'
 Languages = require './Languages'
 Size = require './languages/helper/Size'
+{ round } = Math
 
 
 module.exports =
@@ -50,34 +51,51 @@ class Watcher extends EventEmitter
     return if @isActive
 
     # Start listening
-    @editorView.on 'html-img:fill', @onFillBoth
+    @editorView.on 'html-img:fill', @onFill
+    @editorView.on 'html-img:fill-half', @onFillHalf
     @editorView.on 'html-img:fill-width', @onFillWidth
+    @editorView.on 'html-img:fill-width-half', @onFillWidthHalf
     @editorView.on 'html-img:fill-height', @onFillHeight
+    @editorView.on 'html-img:fill-height-half', @onFillHeightHalf
 
   deactivate: ->
     return unless @isActive
 
     # Stop listening
-    @editorView.off 'html-img:fill', @onFillBoth
+    @editorView.off 'html-img:fill', @onFill
+    @editorView.off 'html-img:fill-half', @onFillHalf
     @editorView.off 'html-img:fill-width', @onFillWidth
+    @editorView.off 'html-img:fill-width-half', @onFillWidthHalf
     @editorView.off 'html-img:fill-height', @onFillHeight
+    @editorView.off 'html-img:fill-height-half', @onFillHeightHalf
 
     # Remove references
     delete @language
 
-  onFillBoth: (e) =>
+  onFill: (e) =>
     # e.abortKeyBinding()
     @fill BOTH
+
+  onFillHalf: (e) =>
+    @fill BOTH, 0.5
 
   onFillWidth: (e) =>
     # e.abortKeyBinding()
     @fill WIDTH
 
+  onFillWidthHalf: (e) =>
+    # e.abortKeyBinding()
+    @fill WIDTH, 0.5
+
   onFillHeight: (e) =>
     # e.abortKeyBinding()
     @fill HEIGHT
 
-  fill: (flag) ->
+  onFillHeightHalf: (e) =>
+    # e.abortKeyBinding()
+    @fill HEIGHT, 0.5
+
+  fill: (flag, scale = 1) ->
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
@@ -89,9 +107,9 @@ class Watcher extends EventEmitter
           .one 'load', =>
             size = new Size
             if (flag & WIDTH) isnt 0
-              size.width = $img.width()
+              size.width = round $img.width() * scale
             if (flag & HEIGHT) isnt 0
-              size.height = $img.height()
+              size.height = round $img.height() * scale
             text = @language.replace node, size
             if text?
               textBuffer.setTextInRange node.range, text
