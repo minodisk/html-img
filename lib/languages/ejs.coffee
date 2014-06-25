@@ -10,7 +10,9 @@ Node = require './helper/Node'
 module.exports =
 
   fileTypes: [
-    'html'
+    'ejs'
+    'erb'
+    'eco'
   ]
 
   find: (cursor, textBuffer) ->
@@ -19,17 +21,17 @@ module.exports =
     rangeAfter = new Range current, textBuffer.getEndPosition()
 
     range = new Range
-    textBuffer.backwardsScanInRange /</, rangeBefore, ({ range: { start } }) ->
+    textBuffer.backwardsScanInRange /<[^%]/, rangeBefore, ({ range: { start } }) ->
       range.start = start
-    textBuffer.scanInRange />/, rangeAfter, ({ range: { end } }) ->
+    textBuffer.scanInRange /[^%]>/, rangeAfter, ({ range: { end } }) ->
       range.end = end
     return unless range.start? and range.end?
 
     textBefore = textBuffer.getTextInRange new Range range.start, current
-    return if />/.test textBefore
+    return if /[^%]>/.test textBefore
 
     textAfter = textBuffer.getTextInRange new Range current, range.end
-    return if /</.test textAfter
+    return if /<[^%]/.test textAfter
 
     text = textBefore + textAfter
     matched = text.match /<img.+?src=["'](.*?)["']/

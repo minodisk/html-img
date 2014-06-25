@@ -113,14 +113,14 @@ describe "html-img", ->
     it "supports base-absolute", ->
       editorView = open 'htdocs/ejs/base-absolute.ejs'
       assert editorView, 'html-img:fill', '<img src="/images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
-      assert editorView, 'html-img:fill-half', '<img src="/images/example.png" width="400" height="250" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
-      assert editorView, 'html-img:fill-width', '<img src="/images/example.png" width="800" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
-      assert editorView, 'html-img:fill-width-half', '<img src="/images/example.png" width="400" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
-      assert editorView, 'html-img:fill-height', '<img src="/images/example.png" height="500" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
-      assert editorView, 'html-img:fill-height-half', '<img src="/images/example.png" height="250" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
+      assert editorView, 'html-img:fill-half', '<img src="/images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="400" height="250">'
+      assert editorView, 'html-img:fill-width', '<img src="/images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800">'
+      assert editorView, 'html-img:fill-width-half', '<img src="/images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="400">'
+      assert editorView, 'html-img:fill-height', '<img src="/images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" height="500">'
+      assert editorView, 'html-img:fill-height-half', '<img src="/images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" height="250">'
 
     it "supports base-relative", ->
-      editorView = open 'htdocs/html/base-relative.html'
+      editorView = open 'htdocs/ejs/base-relative.ejs'
       assert editorView, 'html-img:fill', '<img src="../images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
       assert editorView, 'html-img:fill-half', '<img src="../images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="400" height="250">'
       assert editorView, 'html-img:fill-width', '<img src="../images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800">'
@@ -129,7 +129,7 @@ describe "html-img", ->
       assert editorView, 'html-img:fill-height-half', '<img src="../images/example.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" height="250">'
 
     it "supports protocol-absolute", ->
-      editorView = open 'htdocs/html/protocol-absolute.html'
+      editorView = open 'htdocs/ejs/protocol-absolute.ejs'
       assert editorView, 'html-img:fill', '<img src="https://cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
       assert editorView, 'html-img:fill-half', '<img src="https://cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="400" height="250">'
       assert editorView, 'html-img:fill-width', '<img src="https://cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800">'
@@ -138,7 +138,7 @@ describe "html-img", ->
       assert editorView, 'html-img:fill-height-half', '<img src="https://cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" height="250">'
 
     it "supports protocol-relative", ->
-      editorView = open 'htdocs/html/protocol-relative.html'
+      editorView = open 'htdocs/ejs/protocol-relative.ejs'
       assert editorView, 'html-img:fill', '<img src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800" height="500">'
       assert editorView, 'html-img:fill-half', '<img src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="400" height="250">'
       assert editorView, 'html-img:fill-width', '<img src="//cloud.githubusercontent.com/assets/514164/3367904/47f2f0ce-fb6b-11e3-9b0e-8f836f031d85.png" alt="<% if (foo) { %><%= bar %><% } else { %><%- baz %><% } %>" width="800">'

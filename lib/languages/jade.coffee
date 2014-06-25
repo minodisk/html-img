@@ -10,7 +10,7 @@ Node = require './helper/Node'
 
 module.exports =
 
-  grammars: [
+  fileTypes: [
     'jade'
   ]
 
