@@ -44,8 +44,8 @@ describe "html-img", ->
         assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png" width="800" height="500">', [0, col]
       assert editorView, 'html-img:fill', '<img src="../images/example.png"><img src="../images/example.png">', [0, 66]
 
-    it "recognizes spacing node", ->
-      editorView = open 'htdocs/html/node-spacing.html'
+    it "recognizes spaced node", ->
+      editorView = open 'htdocs/html/node-spaced.html'
       assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  >', [0, 0]
       assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [0, 1]
       assert editorView, 'html-img:fill', '<img\n  alt = "foo"\n  src = "../images/example.png"\n  width="800" height="500">', [1, 1]
