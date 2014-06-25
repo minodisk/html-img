@@ -1,0 +1,23 @@
+ul
+  li absolute url         :
+    img(src='/images/example.gif')
+  li relative url         :
+    img(src='images/example.jpg')
+  li protocol-absolute url:
+    img(src='http://goo.gl/UVsYzx')
+  li protocol-relative url:
+    img(src='//goo.gl/UVsYzx')
+  li fill only width      :
+    img(src='images/example.png')
+  li fill only height     :
+    img(src='images/example.png')
+  li fill as half         :
+    img(src='images/example.png')
+  li fill width as half   :
+    img(src='images/example.png')
+  li fill height as half  :
+    img(src='images/example.png')
+  li overwrite wrong size :
+    img(src='images/example.png', width='1', height='1')
+  li spaced tag           :
+    img(src = 'http://goo.gl/UVsYzx', alt = 'foo')

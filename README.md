@@ -6,13 +6,13 @@ Fill image size automatically.
 
 * Supports HTML, [Jade](http://jade-lang.com/)<!--, [EJS](http://embeddedjs.com/) -->
 * Supports png, jpg and gif
-* Overwrites wrong size
-* You can choose filling only width, height or both
-* You can choose filling with full or half size
 * Supports absolute url: Like `/images/sample.png` (requires `document_root` property in [project.json](#projectjson))
 * Supports relative url: Like `images/smaple.png`
 * Supports protocol-absolute url: Like `http://example.com/images/sample.png`
 * Supports protocol-relative url: Like `//example.com/images/sample.png` (requires `protocol` property in [project.json](#projectjson))
+* Fills only width, height or both
+* Fills as full or half size
+* Overwrites wrong size
 
 ## Keymap
 
