@@ -1,3 +1,7 @@
+## v0.2.3
+
+* Stop moving cursor before and after filling.
+
 ## v0.2.2
 
 * Recognize spaced tag in Jade

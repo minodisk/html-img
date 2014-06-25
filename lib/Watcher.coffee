@@ -113,7 +113,9 @@ class Watcher extends EventEmitter
               size.height = round $img.height() * scale
             text = @language.replace node, size
             if text?
+              pos = cursor.getBufferPosition()
               textBuffer.setTextInRange node.range, text
+              cursor.setBufferPosition pos
             $img.remove()
           .attr 'src', path
           .hide()
