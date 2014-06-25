@@ -45,7 +45,7 @@ module.exports =
       textBuffer.getTextInRange new Range range.start, current
       textBuffer.getTextInRange new Range current, range.end
     ].join ''
-    matched = node.match /<img\s[\s\S]*?src\s*=\s*["'](.*?)["']/
+    matched = node.match /<img\s[\s\S]*src\s*=\s*["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
 
     new Node range, node, src

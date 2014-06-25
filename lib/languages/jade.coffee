@@ -19,7 +19,7 @@ module.exports =
     range = textBuffer.rangeForRow row, false
     text = textBuffer.lineForRow row
 
-    matched = text.match /img.+?src=["'](.*?)["']/
+    matched = text.match /img\s*\(.*src\s*=\s*["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
 
     new Node range, text, src
