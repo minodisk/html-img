@@ -63,6 +63,7 @@ class Watcher extends EventEmitter
 
     # Stop listening
     @editorView.off 'html-img:fill', @onFillBoth
+    @editorView.off 'html-img:fill-half', @onFillBothHalf
     @editorView.off 'html-img:fill-width', @onFillWidth
     @editorView.off 'html-img:fill-height', @onFillHeight
 
@@ -92,9 +93,11 @@ class Watcher extends EventEmitter
       if node?
         do (node) =>
           path = node.getPath base
+          console.log path
           $img = $ '<img>'
           .one 'load', =>
             size = new Size
+            console.log [$img.width(), $img.height(), scale]
             if (flag & WIDTH) isnt 0
               size.width = round $img.width() * scale
             if (flag & HEIGHT) isnt 0

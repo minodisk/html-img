@@ -51,16 +51,19 @@ describe "html-img", ->
   #
   #   it "supports base-relative", ->
   #     assert 'htdocs/html/base-relative.html', 'html-img:fill', '<img src="../images/example.png" width="800" height="500">'
+      assert 'htdocs/html/base-relative.html', 'html-img:fill-half', '<img src="../images/example.png" width="400" height="250">'
   #     assert 'htdocs/html/base-relative.html', 'html-img:fill-width', '<img src="../images/example.png" width="800">'
   #     assert 'htdocs/html/base-relative.html', 'html-img:fill-height', '<img src="../images/example.png" height="500">'
   #
   #   it "supports protocol-absolute", ->
   #     assert 'htdocs/html/protocol-absolute.html', 'html-img:fill', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
+      assert 'htdocs/html/protocol-absolute.html', 'html-img:fill-half', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="205" height="171">'
   #     assert 'htdocs/html/protocol-absolute.html', 'html-img:fill-width', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410">'
   #     assert 'htdocs/html/protocol-absolute.html', 'html-img:fill-height', '<img src="https://atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" height="342">'
   #
   #   it "supports protocol-relative", ->
   #     assert 'htdocs/html/protocol-relative.html', 'html-img:fill', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410" height="342">'
+      assert 'htdocs/html/protocol-relative.html', 'html-img:fill-half', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="205" height="171">'
   #     assert 'htdocs/html/protocol-relative.html', 'html-img:fill-width', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" width="410">'
   #     assert 'htdocs/html/protocol-relative.html', 'html-img:fill-height', '<img src="//atom.io/assets/monitor-b3b60637a9422ab1e893c9c0820a53c2.png" height="342">'
   #
