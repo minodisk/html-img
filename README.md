@@ -6,9 +6,12 @@
 
 ## Keymap
 
-- `ctrl-i`, `ctrl-i i`: Fill width and height
-- `ctrl-i w`: Fill width
-- `ctrl-i h`: Fill height
+- `ctrl-i` or `ctrl-i enter`: Fill width and height
+- `ctrl-i /`: Fill width and height as half
+- `ctrl-alt-i`: Fill width
+- `ctrl-alt-i /`: Fill width as half
+- `ctrl-shift-i`: Fill height
+- `ctrl-shift-i /`: Fill height as half
 
 Override [keymap](https://github.com/minodisk/html-img/blob/master/keymaps/html-img.cson) with `Atom > Open Your Keymap`.
 
@@ -16,6 +19,7 @@ Override [keymap](https://github.com/minodisk/html-img/blob/master/keymaps/html-
 
 - HTML
 - [Jade](http://jade-lang.com/)
+- [EJS](http://embeddedjs.com/)
 
 ## Supported url type
 
