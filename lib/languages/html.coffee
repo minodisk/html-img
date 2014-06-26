@@ -8,49 +8,43 @@ Node = require './helper/Node'
 
 
 module.exports =
+class HTML
 
-  fileTypes: [
+  @fileTypes: [
     'html'
   ]
 
-  find: (cursor, textBuffer) ->
-    current = cursor.getBufferPosition()
-    rangeBefore = new Range new Point(0, 0), current
-    rangeAfter = new Range current, textBuffer.getEndPosition()
+  @findTagAroundPosition: (textBuffer, position) ->
+    rangeBefore = new Range new Point(0, 0), position
+    rangeAfter = new Range position, textBuffer.getEndPosition()
 
-    # 1. Get whole text
-    # 2. Replace ejs tags to white space
-    # 3. Find start of node before the cursor
-    # 4. Find end of node after the cursor
-    # 5. Join before and after texts to one node
     [ rangeStart, rangeEnd ] = []
-    isBreak = false
+
     textBuffer.backwardsScanInRange /<[\s\S]*?/, rangeBefore, ({ matchText, range: { start }, stop }) ->
-      if />/.test matchText
-        isBreak = true
-        return
+      stop()
+      return if />/.test matchText
       rangeStart = start
-      stop()
-    return if isBreak
+    return unless rangeStart?
+
     textBuffer.scanInRange /[\s\S]*?>/, rangeAfter, ({ matchText, range: { end }, stop }) ->
-      if /</.test matchText
-        isBreak = true
-        return
-      rangeEnd = end
       stop()
-    return if isBreak
-    return unless rangeStart? and rangeEnd?
-    range = new Range rangeStart, rangeEnd
-    node = [
-      textBuffer.getTextInRange new Range range.start, current
-      textBuffer.getTextInRange new Range current, range.end
-    ].join ''
+      return if /</.test matchText
+      rangeEnd = end
+    return unless rangeEnd?
+
+    new Range rangeStart, rangeEnd
+
+  @find: (cursor, textBuffer) ->
+    range = @findTagAroundPosition textBuffer, cursor.getBufferPosition()
+    #TODO check range?
+
+    node = textBuffer.getTextInRange range
     matched = node.match /<img\s[\s\S]*src\s*=\s*["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
 
     new Node range, node, src
 
-  replace: ({ range, text }, { width, height }) ->
+  @replace: ({ range, text }, { width, height }) ->
     if width?
       if /width/.test text
         text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""

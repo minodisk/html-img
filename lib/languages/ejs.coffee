@@ -5,17 +5,19 @@ Grammar definition for html, ejs and eco.
 
 { Point, Range } = require 'atom'
 Node = require './helper/Node'
+HTML = require './html'
 
 
 module.exports =
+class EJS extends HTML
 
-  fileTypes: [
+  @fileTypes: [
     'ejs'
     'erb'
     'eco'
   ]
 
-  find: (cursor, textBuffer) ->
+  @find: (cursor, textBuffer) ->
     current = cursor.getBufferPosition()
     rangeBefore = new Range new Point(0, 0), current
     rangeAfter = new Range current, textBuffer.getEndPosition()
@@ -48,16 +50,3 @@ module.exports =
     matched = node.match /<img.+?src=["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
     new Node range, node, src
-
-  replace: ({ range, text }, { width, height }) ->
-    if width?
-      if /width/.test text
-        text = text.replace /width(?:=".*?")?/, "width=\"#{width}\""
-      else
-        text = text.replace /\s*(\/?>)$/, " width=\"#{width}\"$1"
-    if height?
-      if /height/.test text
-        text = text.replace /height(?:=".*?")?/, "height=\"#{height}\""
-      else
-        text = text.replace /\s*(\/?>)$/, " height=\"#{height}\"$1"
-    text
