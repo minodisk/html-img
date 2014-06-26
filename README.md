@@ -4,7 +4,7 @@ Fill image size automatically.
 
 ![take-8](https://cloud.githubusercontent.com/assets/514164/3386329/338f2752-fc73-11e3-9aac-4a9f7b0e4312.gif)
 
-* Supports HTML, [Jade](http://jade-lang.com/)<!--, [EJS](http://embeddedjs.com/) -->
+* Supports HTML, [Jade](http://jade-lang.com/), [EJS](http://embeddedjs.com/), [ECO](https://github.com/sstephenson/eco) and ERB
 * Supports png, jpg and gif
 * Supports absolute url: Like `/images/sample.png` (requires `document_root` property in [project.json](#projectjson))
 * Supports relative url: Like `images/smaple.png`
@@ -16,12 +16,12 @@ Fill image size automatically.
 
 ## Keymap
 
-- `ctrl-i` or `ctrl-i enter`: Fill width and height
-- `ctrl-i /`: Fill width and height as half
-- `ctrl-alt-i` or `ctrl-alt-i enter`: Fill width
-- `ctrl-alt-i /`: Fill width as half
-- `ctrl-shift-i` or `ctrl-shift-i enter`: Fill height
-- `ctrl-shift-i /`: Fill height as half
+* `ctrl-i` or `ctrl-i enter`: Fill width and height
+* `ctrl-i /`: Fill width and height as half
+* `ctrl-alt-i` or `ctrl-alt-i enter`: Fill width
+* `ctrl-alt-i /`: Fill width as half
+* `ctrl-shift-i` or `ctrl-shift-i enter`: Fill height
+* `ctrl-shift-i /`: Fill height as half
 
 Override [keymap](https://github.com/minodisk/html-img/blob/master/keymaps/html-img.cson) with `Atom > Open Your Keymap`.
 
@@ -31,8 +31,8 @@ When you specify `src` absolute or protocol-relative url, you can create `projec
 
 ### project.json
 
-- `document_root`: Used for resolving absolute url. Default is `''`.
-- `protocol`: Used for resolving protocol-relative url. Default is `'http'`.
+* `document_root`: Used for resolving absolute url. Default is `''`.
+* `protocol`: Used for resolving protocol-relative url. Default is `'http'`.
 
 ### Example
 
@@ -49,3 +49,7 @@ When you specify `src` absolute or protocol-relative url, you can create `projec
   "protocol": "https"
 }
 ```
+
+## TODO
+
+* Support [Haml](http://haml.info/) and [Slim](http://slim-lang.com/)
