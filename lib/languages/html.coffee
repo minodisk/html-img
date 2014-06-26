@@ -14,7 +14,7 @@ class HTML
     'html'
   ]
 
-  @findTagAroundPosition: (textBuffer, position) ->
+  @range: (textBuffer, position) ->
     rangeBefore = new Range new Point(0, 0), position
     rangeAfter = new Range position, textBuffer.getEndPosition()
 
@@ -34,15 +34,15 @@ class HTML
 
     new Range rangeStart, rangeEnd
 
-  @find: (cursor, textBuffer) ->
-    range = @findTagAroundPosition textBuffer, cursor.getBufferPosition()
-    #TODO check range?
-
+  @node: (textBuffer, range) ->
+    return unless range?
     node = textBuffer.getTextInRange range
     matched = node.match /<img\s[\s\S]*src\s*=\s*["'](.*?)["']/
     return unless (src = matched?[1])? and src isnt ''
-
     new Node range, node, src
+
+  @find: (cursor, textBuffer) ->
+    @node textBuffer, @range textBuffer, cursor.getBufferPosition()
 
   @replace: ({ range, text }, { width, height }) ->
     if width?
