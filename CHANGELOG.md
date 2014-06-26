@@ -1,3 +1,7 @@
+## v0.3.0
+
+* Support [EJS](http://embeddedjs.com/), [ECO](https://github.com/sstephenson/eco) and ERB
+
 ## v0.2.3
 
 * Stop moving cursor before and after filling.

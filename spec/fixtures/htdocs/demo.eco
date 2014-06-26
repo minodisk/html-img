@@ -1,0 +1,17 @@
+<ul>
+  <li>absolute url         : <img src="/images/example.gif" alt="<% a < b > c %>"></li>
+  <li>relative url         : <img src="images/example.jpg" alt="<% a < b > c %>"></li>
+  <li>protocol-absolute url: <img src="http://goo.gl/UVsYzx" alt="<% a < b > c %>"></li>
+  <li>protocol-relative url: <img src="//goo.gl/UVsYzx" alt="<% a < b > c %>"></li>
+  <li>fill only width      : <img src="images/example.png" alt="<% a < b > c %>"></li>
+  <li>fill only height     : <img src="images/example.png" alt="<% a < b > c %>"></li>
+  <li>fill as half         : <img src="images/example.png" alt="<% a < b > c %>"></li>
+  <li>fill width as half   : <img src="images/example.png" alt="<% a < b > c %>"></li>
+  <li>fill height as half  : <img src="images/example.png" alt="<% a < b > c %>"></li>
+  <li>overwrite wrong size : <img src="images/example.png" alt="<% a < b > c %>" width="1" height="1"/></li>
+  <li>spaced tag           : <img
+    src="http://goo.gl/UVsYzx"
+    alt="<% a < b > c %>"
+    ></li>
+  <li>closed tag           : <img src="images/example.png" alt="<% a < b > c %>"/></li>
+</ul>
