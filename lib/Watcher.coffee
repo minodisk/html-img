@@ -101,6 +101,7 @@ class Watcher extends EventEmitter
     base = @editor.getUri()
     for cursor in @editor.cursors
       do (cursor) =>
+        position = cursor.getBufferPosition()
         node = @language.find cursor, textBuffer
         if node?
           path = node.getPath base
@@ -113,9 +114,8 @@ class Watcher extends EventEmitter
               size.height = round $img.height() * scale
             text = @language.replace node, size
             if text?
-              pos = cursor.getBufferPosition()
               textBuffer.setTextInRange node.range, text
-              cursor.setBufferPosition pos
+              cursor.setBufferPosition position
             $img.remove()
           .attr 'src', path
           .hide()

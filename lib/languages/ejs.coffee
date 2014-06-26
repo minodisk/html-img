@@ -32,6 +32,7 @@ class EJS extends HTML
     textBuffer.setText wholeTextTemp
     range = @range textBuffer, position
     textBuffer.setText wholeText
+    cursor.setBufferPosition position
     textBuffer.commitTransaction()
 
     @node textBuffer, range
