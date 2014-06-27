@@ -1,3 +1,7 @@
+## v0.3.2
+
+* Support [PHP](http://www.php.net/)
+
 ## v0.3.1
 
 * Fix issue filling size twice
