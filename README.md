@@ -4,7 +4,7 @@ Fill image size automatically.
 
 ![take-8](https://cloud.githubusercontent.com/assets/514164/3386329/338f2752-fc73-11e3-9aac-4a9f7b0e4312.gif)
 
-* Supports HTML, [Jade](http://jade-lang.com/), [EJS](http://embeddedjs.com/), [ECO](https://github.com/sstephenson/eco) and ERB
+* Supports HTML, [Jade](http://jade-lang.com/), [EJS](http://embeddedjs.com/), [ECO](https://github.com/sstephenson/eco), ERB and [PHP](http://www.php.net/)
 * Supports png, jpg and gif
 * Supports absolute url: Like `/images/sample.png` (requires `document_root` property in [project.json](#projectjson))
 * Supports relative url: Like `images/smaple.png`
