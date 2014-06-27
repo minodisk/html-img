@@ -1,3 +1,9 @@
+## v0.3.1
+
+* Fix issue filling size twice
+* Runs test faster
+* Runs test in Travis CI
+
 ## v0.3.0
 
 * Support [EJS](http://embeddedjs.com/), [ECO](https://github.com/sstephenson/eco) and ERB

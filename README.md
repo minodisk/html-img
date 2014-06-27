@@ -1,4 +1,4 @@
-# html-img package
+# html-img package [![Build Status](https://travis-ci.org/minodisk/html-img.svg?branch=master)](https://travis-ci.org/minodisk/html-img)
 
 Fill image size automatically.
 
