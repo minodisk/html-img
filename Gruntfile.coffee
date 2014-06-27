@@ -1,4 +1,5 @@
 { dirname, filename, extname, sep } = require 'path'
+
 firstDirname = (filepath) ->
   filepath.split(sep)[0]
 secondDirname = (filepath) ->
@@ -14,10 +15,8 @@ module.exports = (grunt) ->
         dirs: [
           'keymaps/**/*'
           'lib/**/*'
-          'menus/**/*'
           'spec/**/*'
           'stylesheets/**/*'
-          'node_modules/atom-refactor/**/*'
         ]
         livereload:
           enabled: false
@@ -27,6 +26,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-este-watch'
 
   grunt.registerTask 'apm:test', ->
+    start = new Date().getTime()
     done = @async()
     grunt.util.spawn
       cmd: 'apm'
@@ -36,6 +36,7 @@ module.exports = (grunt) ->
         grunt.util.error err
       if result?
         grunt.log.writeln result
+      grunt.log.writeln "#{(new Date().getTime() - start) / 1000}sec"
       done()
 
   grunt.registerTask 'default', [
