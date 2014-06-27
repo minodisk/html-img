@@ -14,6 +14,8 @@ Fill image size automatically.
 * Fills as full or half size
 * Overwrites wrong size
 
+[Changelog](https://github.com/minodisk/html-img/blob/master/CHANGELOG.md)
+
 ## Keymap
 
 * `ctrl-i` or `ctrl-i enter`: Fill width and height
@@ -38,14 +40,14 @@ When you specify `src` absolute or protocol-relative url, you can create `projec
 
 ```
 .
-├──htdocs          # Document root
-│   └──index.jade  # HTML/Jade files here
+├──public          # Document root
+│   └──index.html  # Files
 └──project.json    # Configuration for html-img
 ```
 
 ```json
 {
-  "document_root": "htdocs",
+  "document_root": "public",
   "protocol": "https"
 }
 ```

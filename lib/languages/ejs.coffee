@@ -17,11 +17,13 @@ class EJS extends HTML
     'eco'
   ]
 
+  @rCode: /<%.*?%>/g
+
   @find: (cursor, textBuffer) ->
     position = cursor.getBufferPosition()
 
     wholeText = textBuffer.getText()
-    wholeTextTemp = wholeText.replace /<%.*?%>/g, (str) ->
+    wholeTextTemp = wholeText.replace @rCode, (str) ->
       replacer = ''
       i = str.length
       while i--
