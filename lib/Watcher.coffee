@@ -20,7 +20,6 @@ class Watcher extends EventEmitter
   constructor: (@editorView, @languages) ->
     super()
     @languages = Languages.getInstance()
-    @isActive = false
     @editor = @editorView.editor
     @editor.on 'grammar-changed', @checkGrammar
     @editor.on 'destroyed', @onDestroyed
@@ -43,13 +42,13 @@ class Watcher extends EventEmitter
   # Enabled-disabled-cycle
 
   checkGrammar: =>
-    @deactivate()
-    ext = extname(@editor.getTitle()).replace(/^\./, '')
-    return unless (@language = @languages.getDefinition ext)?
-    @activate()
+    language = @languages.getDefinition extname(@editor.getTitle()).replace(/^\./, '')
+    if @language isnt language
+      @deactivate()
+      @activate language
 
-  activate: ->
-    return if @isActive
+  activate: (@language) ->
+    return unless @language?
 
     # Start listening
     @editorView.on 'html-img:fill', @onFill
@@ -60,7 +59,7 @@ class Watcher extends EventEmitter
     @editorView.on 'html-img:fill-height-half', @onFillHeightHalf
 
   deactivate: ->
-    return unless @isActive
+    return unless @language?
 
     # Stop listening
     @editorView.off 'html-img:fill', @onFill
