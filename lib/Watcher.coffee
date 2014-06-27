@@ -97,26 +97,57 @@ class Watcher extends EventEmitter
     @fill HEIGHT, 0.5
 
   fill: (flag, scale = 1) ->
+    filled = 0
+    filling = @editor.cursors.length
+    process = (node, position, $img) =>
+      size = new Size
+      if needsWidth
+        size.width = round $img.width() * scale
+      if needsHeight
+        size.height = round $img.height() * scale
+      text = @language.replace node, size
+      if text?
+        textBuffer.setTextInRange node.range, text
+        cursor.setBufferPosition position
+    onComplete = =>
+      return unless ++filled is filling
+      @emit 'complete'
+
+    needsWidth = (flag & WIDTH) isnt 0
+    needsHeight = (flag & HEIGHT) isnt 0
     textBuffer = @editor.buffer
     base = @editor.getUri()
     for cursor in @editor.cursors
       do (cursor) =>
         position = cursor.getBufferPosition()
         node = @language.find cursor, textBuffer
-        if node?
-          path = node.getPath base
-          $img = $ '<img>'
-          .one 'load', =>
-            size = new Size
-            if (flag & WIDTH) isnt 0
-              size.width = round $img.width() * scale
-            if (flag & HEIGHT) isnt 0
-              size.height = round $img.height() * scale
-            text = @language.replace node, size
-            if text?
-              textBuffer.setTextInRange node.range, text
-              cursor.setBufferPosition position
-            $img.remove()
-          .attr 'src', path
-          .hide()
-          .appendTo @editorView.overlayer
+
+        # no target is found
+        unless node?
+          onComplete()
+          return
+
+        # ready to load image
+        path = node.getPath base
+        $img = $ '<img>'
+        .attr 'src', path
+        .hide()
+        .appendTo @editorView.overlayer
+
+        # with cache
+        if $img[0].complete
+          process node, position, $img
+          $img.remove()
+          onComplete()
+          return
+
+        # without cache
+        # listen to error and load event
+        $img
+        .one 'error', (e) =>
+          $img.remove()
+          onComplete()
+        .one 'load', =>
+          process node, position, $img
+          $img.remove()
+          onComplete()
