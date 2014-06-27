@@ -12,12 +12,6 @@ module.exports =
     atom.workspaceView.attachToDom()
     editorView = atom.workspaceView.getActiveView()
 
-    for lang in ['html', 'jade']
-      languagePath = atom.packages.resolvePackagePath "language-#{lang}"
-      grammarsPath = resolve languagePath, 'grammars'
-      for grammarFile in readdirSync grammarsPath
-        atom.syntax.loadGrammarSync resolve grammarsPath, grammarFile
-
     waitsForPromise -> atom.packages.activatePackage 'html-img'
 
     editorView
