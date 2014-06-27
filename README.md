@@ -40,14 +40,14 @@ When you specify `src` absolute or protocol-relative url, you can create `projec
 
 ```
 .
-├──htdocs          # Document root
-│   └──index.jade  # HTML/Jade files here
+├──public          # Document root
+│   └──index.html  # Files
 └──project.json    # Configuration for html-img
 ```
 
 ```json
 {
-  "document_root": "htdocs",
+  "document_root": "public",
   "protocol": "https"
 }
 ```
