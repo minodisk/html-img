@@ -1,4 +1,4 @@
-'.editor:not(.mini)':
+'atom-text-editor:not(.mini)':
   'ctrl-i'            : 'html-img:fill'
   'ctrl-i enter'      : 'html-img:fill'
   'ctrl-i /'          : 'html-img:fill-half'
