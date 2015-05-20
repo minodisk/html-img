@@ -1,7 +1,7 @@
 {
   "name": "html-img",
   "main": "./lib/html-img",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Fill image size automatically",
   "repository": "https://github.com/minodisk/html-img.git",
   "license": "MIT",
