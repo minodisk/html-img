@@ -1,6 +1,7 @@
 { EventEmitter } = require 'events'
 { extname } = require 'path'
-{ $, Point, Range } = require 'atom'
+{$} = require 'atom-space-pen-views'
+{ Point, Range } = require 'atom'
 Languages = require './Languages'
 Size = require './languages/helper/Size'
 { round } = Math
@@ -17,19 +18,18 @@ class Watcher extends EventEmitter
 
   # Life-cycle
 
-  constructor: (@editorView, @languages) ->
+  constructor: (@editor, @languages) ->
     super()
     @languages = Languages.getInstance()
-    @editor = @editorView.editor
-    @editor.on 'grammar-changed', @checkGrammar
-    @editor.on 'destroyed', @onDestroyed
+    @command_changeGrammar = @editor.onDidChangeGrammar @checkGrammar
+    @command_destroyed = @editor.onDidDestroy @onDestroyed
     @checkGrammar()
 
   destruct: =>
     @removeAllListeners()
     @deactivate()
-    @editor.off 'grammar-changed', @checkGrammar
-    @editor.off 'destroyed', @onDestroyed
+    @command_changeGrammar.dispose()
+    @command_destroyed.dispose()
 
     delete @editorView
     delete @editor
@@ -51,23 +51,23 @@ class Watcher extends EventEmitter
     return unless @language?
 
     # Start listening
-    @editorView.on 'html-img:fill', @onFill
-    @editorView.on 'html-img:fill-half', @onFillHalf
-    @editorView.on 'html-img:fill-width', @onFillWidth
-    @editorView.on 'html-img:fill-width-half', @onFillWidthHalf
-    @editorView.on 'html-img:fill-height', @onFillHeight
-    @editorView.on 'html-img:fill-height-half', @onFillHeightHalf
+    @command_onFill = atom.commands.add('atom-text-editor', 'html-img:fill', @onFill)
+    @command_onFillHalf = atom.commands.add('atom-text-editor', 'html-img:fill-half', @onFillHalf)
+    @command_onFillWidth = atom.commands.add('atom-text-editor', 'html-img:fill-width', @onFillWidth)
+    @command_onFillWidthHalf = atom.commands.add('atom-text-editor', 'html-img:fill-width-half', @onFillWidthHalf)
+    @command_onFillHeight = atom.commands.add('atom-text-editor', 'html-img:fill-height', @onFillHeight)
+    @command_onFillHeightHalf = atom.commands.add('atom-text-editor', 'html-img:fill-height-half', @onFillHeightHalf)
 
   deactivate: ->
     return unless @language?
 
     # Stop listening
-    @editorView.off 'html-img:fill', @onFill
-    @editorView.off 'html-img:fill-half', @onFillHalf
-    @editorView.off 'html-img:fill-width', @onFillWidth
-    @editorView.off 'html-img:fill-width-half', @onFillWidthHalf
-    @editorView.off 'html-img:fill-height', @onFillHeight
-    @editorView.off 'html-img:fill-height-half', @onFillHeightHalf
+    @command_onFill.dispose()
+    @command_onFillHalf.dispose()
+    @command_onFillWidth.dispose()
+    @command_onFillWidthHalf.dispose()
+    @command_onFillHeight.dispose()
+    @command_onFillHeightHalf.dispose()
 
     # Remove references
     delete @language
@@ -101,9 +101,9 @@ class Watcher extends EventEmitter
     process = (node, position, $img) =>
       size = new Size
       if needsWidth
-        size.width = round $img.width() * scale
+        size.width = round $img[0].naturalWidth * scale
       if needsHeight
-        size.height = round $img.height() * scale
+        size.height = round $img[0].naturalHeight * scale
       text = @language.replace node, size
       if text?
         textBuffer.setTextInRange node.range, text
@@ -115,7 +115,7 @@ class Watcher extends EventEmitter
     needsWidth = (flag & WIDTH) isnt 0
     needsHeight = (flag & HEIGHT) isnt 0
     textBuffer = @editor.buffer
-    base = @editor.getUri()
+    base = @editor.getURI()
     for cursor in @editor.cursors
       do (cursor) =>
         position = cursor.getBufferPosition()
@@ -131,7 +131,6 @@ class Watcher extends EventEmitter
         $img = $ '<img>'
         .attr 'src', path
         .hide()
-        .appendTo @editorView.overlayer
 
         # with cache
         if $img[0].complete
