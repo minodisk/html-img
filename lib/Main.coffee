@@ -6,9 +6,13 @@ class Main
   renameCommand: ''
   doneCommand: ''
 
-  configDefaults:
-    highlightError    : true
-    highlightReference: true
+  config:
+    highlightError:
+      type: 'boolean'
+      default: true
+    highlightReference:
+      type: 'boolean'
+      default: true
 
 
   ###
@@ -18,13 +22,17 @@ class Main
   activate: (state) ->
     @watchers = []
 
-    atom.workspaceView.eachEditorView @onCreated
-    atom.workspaceView.command @renameCommand, @onRename
-    atom.workspaceView.command @doneCommand, @onDone
+    atom.workspace.observeTextEditors (editor) => @onCreated(editor)
+    @command_rename = atom.commands.add 'atom-workspace',
+      @renameCommand
+      @onRename
+    @command_add = atom.commands.add 'atom-workspace',
+      @doneCommand
+      @onDone
 
   deactivate: ->
-    atom.workspaceView.off @renameCommand, @onRename
-    atom.workspaceView.off @doneCommand, @onDone
+    @command_rename.dispose()
+    @command_add.dispose()
 
     for watcher in @watchers
       watcher.destruct()
@@ -37,8 +45,8 @@ class Main
   Events
   ###
 
-  onCreated: (editorView) =>
-    watcher = new Watcher editorView
+  onCreated: (editor) =>
+    watcher = new Watcher editor
     watcher.on 'destroyed', @onDestroyed
     @watchers.push watcher
 

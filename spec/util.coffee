@@ -1,35 +1,26 @@
-{ join, resolve, extname } = require 'path'
-{ readdirSync } = require 'fs'
-{ WorkspaceView } = require 'atom'
-
-
 module.exports =
 
   open: (file) ->
-    atom.workspaceView = new WorkspaceView
-    atom.project.setPath join __dirname, 'fixtures'
-    atom.workspaceView.openSync file
-    atom.workspaceView.attachToDom()
-    editorView = atom.workspaceView.getActiveView()
-
+    atom.project.setPaths [__dirname + '/fixtures']
     waitsForPromise -> atom.packages.activatePackage 'html-img'
-
-    editorView
+    waitsForPromise -> atom.workspace.open(file)
 
   assert: (editorView, command, expected, position = [0, 1]) ->
     isComplete = false
-    editor = editorView.getEditor()
-    runs ->
+    runs =>
       pkg = atom.packages.getActivePackage 'html-img'
+      @editor = atom.workspace.getActiveTextEditor()
       watcher = pkg.mainModule.watchers[0]
       watcher.once 'complete', ->
         isComplete = true
+      editor = @editor
       editor.setCursorBufferPosition position
-      editorView.trigger command
+      atom.commands.dispatch(atom.views.getView(editor), command)
     waitsFor ->
       isComplete
     , "filled", 3000
-    runs ->
+    runs =>
+      editor = @editor
       expect(editor.getText()).toBe("#{expected}\n")
       { start } = editor.getSelectedBufferRange()
       expect(start.row).toBe(position[0])

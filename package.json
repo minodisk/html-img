@@ -1,15 +1,16 @@
 {
   "name": "html-img",
   "main": "./lib/html-img",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Fill image size automatically",
   "repository": "https://github.com/minodisk/html-img.git",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "atom-space-pen-views": "^2.0.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

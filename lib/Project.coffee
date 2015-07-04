@@ -18,7 +18,7 @@ class Project
 
 
   constructor: ->
-    pathJson = atom.project.resolve 'project.json'
+    pathJson = atom.project.getDirectories()[0]?.resolve 'project.json'
     if existsSync pathJson
       data = JSON.parse readFileSync pathJson
 

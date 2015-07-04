@@ -30,11 +30,11 @@ class EJS extends HTML
         replacer += ' '
       replacer
 
-    textBuffer.beginTransaction()
-    textBuffer.setText wholeTextTemp
-    range = @range textBuffer, position
-    textBuffer.setText wholeText
-    cursor.setBufferPosition position
-    textBuffer.commitTransaction()
+    range = null
+    textBuffer.transact =>
+      textBuffer.setText wholeTextTemp
+      range = @range textBuffer, position
+      textBuffer.setText wholeText
+      cursor.setBufferPosition position
 
     @node textBuffer, range
